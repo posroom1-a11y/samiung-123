@@ -1,0 +1,70 @@
+// setSelectionValues: 사용자가 선택한 값들을 변수에 저장
+let selectedOptions = {
+  serviceType: "",  // 원하는 서비스 종류
+  budgetRange: "",  // 예산 구간
+  industryType: "", // 업종
+  keyRequirements: [], // 주요 요구 사항
+  consultationMethod: "", // 상담 방식
+  userName: "", // 이름
+  userPhone: "" // 전화번호
+};
+
+// 1. 사용자가 선택한 값들을 버튼 클릭으로 저장
+function setSelectionValues(serviceType, budgetRange, industryType, keyRequirements, consultationMethod) {
+  selectedOptions.serviceType = serviceType;
+  selectedOptions.budgetRange = budgetRange;
+  selectedOptions.industryType = industryType;
+  selectedOptions.keyRequirements = keyRequirements;
+  selectedOptions.consultationMethod = consultationMethod;
+}
+
+// 2. 이름과 전화번호 입력 받기
+function setUserInfo(userName, userPhone) {
+  selectedOptions.userName = userName;
+  selectedOptions.userPhone = userPhone;
+}
+
+// 예시로 사용자가 선택한 값들 설정 (실제 버튼 클릭 시 이 함수들이 호출됨)
+setSelectionValues("랜딩 페이지", "100~300만원", "IT/스타트업", ["모바일 최적화", "결제 기능"], "카카오톡");
+setUserInfo("홍길동", "010-1234-5678");
+
+// 예산 구간에 따라 값 처리
+let budgetValue;
+switch (selectedOptions.budgetRange) {
+  case "100~300만원":
+    budgetValue = "100~300만원";
+    break;
+  case "300~700만원":
+    budgetValue = "300~700만원";
+    break;
+  case "700만원 이상":
+    budgetValue = "700만원 이상";
+    break;
+  default:
+    budgetValue = "기타";
+}
+
+// 3. 선택된 값을 요약하는 함수
+function generateSummaryText() {
+  return [
+    "📌 이용자가 선택한 내용 요약",
+    "",
+    `- 원하는 서비스 종류: ${selectedOptions.serviceType || "확인되지 않음"}`,
+    `- 예산 구간: ${selectedOptions.budgetRange || "확인되지 않음"}`,
+    `- 업종: ${selectedOptions.industryType || "확인되지 않음"}`,
+    `- 주요 요구 사항: ${selectedOptions.keyRequirements.join(", ") || "확인되지 않음"}`,
+    `- 희망 상담 방식: ${selectedOptions.consultationMethod || "확인되지 않음"}`,
+    `- 이름: ${selectedOptions.userName || "확인되지 않음"}`,
+    `- 전화번호: ${selectedOptions.userPhone || "확인되지 않음"}`
+  ].join("\n");
+}
+
+// 4. renderSummary: render 템플릿에 요약된 값을 전달하여 출력
+function renderSummary() {
+  render("summary", {
+    summaryText: generateSummaryText() // 요약된 텍스트 전달
+  });
+}
+
+// 최종 출력하기
+renderSummary();
